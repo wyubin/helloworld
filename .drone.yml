@@ -18,6 +18,3 @@ steps:
 trigger:
   branch:
   - master
-  - feature/*
-  - develop
-  
