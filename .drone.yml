@@ -14,3 +14,8 @@ steps:
   - echo $USERNAME
   - echo $USERNAME > a.txt
   - cat a.txt
+
+trigger:
+  branch:
+  - master
+  - feature/*
