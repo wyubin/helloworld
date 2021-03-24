@@ -108,4 +108,4 @@ docker-compose -f drone/docker-compose.yml up
 
 # 注意事項
 *  drone 開啟時會存 database.sqlite 在 docker-compose.yml 的資料夾，如果重開一個 drone 會需要清掉這個database，不然會無法連接 github 的 push
-*  
+*  如果只有設定 master 就不會啟動其他 branch 的幾個行為：
