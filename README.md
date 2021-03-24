@@ -83,7 +83,10 @@ DRONE_GITHUB_CLIENT_SECRET=<github client_secret>
 
 *  開啟服務
 ```shell
+## start service
 docker-compose -f drone/docker-compose.yml up -d
+## trace 
+docker-compose logs drone-server
 ```
 
 *  連到 drone 的介面，用瀏覽器開 8b4478c18035.ngrok.io
