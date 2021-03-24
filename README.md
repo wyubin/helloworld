@@ -83,7 +83,7 @@ DRONE_GITHUB_CLIENT_SECRET=<github client_secret>
 
 *  開啟服務
 ```shell
-docker-compose -f drone/docker-compose.yml up
+docker-compose -f drone/docker-compose.yml up -d
 ```
 
 *  連到 drone 的介面，用瀏覽器開 8b4478c18035.ngrok.io
@@ -108,4 +108,4 @@ docker-compose -f drone/docker-compose.yml up
 
 # 注意事項
 *  drone 開啟時會存 database.sqlite 在 docker-compose.yml 的資料夾，如果重開一個 drone 會需要清掉這個database，不然會無法連接 github 的 push
-*  
+*  如果只有設定 master 就不會啟動其他 branch 的幾個行為：push, 但對 master 的 pull request 會啟動
