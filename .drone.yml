@@ -20,5 +20,5 @@ trigger:
   - master
 
 services:
-  mssql:
-    image: mcr.microsoft.com/mssql/server
+  - name: mssql
+    image: mcr.microsoft.com/mssql/server:latest
