@@ -18,3 +18,7 @@ steps:
 trigger:
   branch:
   - master
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server

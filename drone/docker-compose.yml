@@ -1,6 +1,19 @@
-version: '2'
+version: '3.7'
 
 services:
+  nginx:
+    hostname: docker-nginx
+    image: nginx:1.19
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ${DIR_NGINX}/www:/var/www:delegated
+      - ${DIR_NGINX}/log:/var/log/nginx:delegated
+      - ${DIR_NGINX}/sites-enabled:/etc/nginx/sites-enabled:ro
+    depends_on:
+      - drone-server
+  
   drone-server:
     image: drone/drone:1
     ports:
