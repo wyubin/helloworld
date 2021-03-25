@@ -3,7 +3,7 @@ version: '3.7'
 services:
   nginx:
     hostname: docker-nginx
-    image: nginx:1.19
+    image: fholzer/nginx-brotli:v1.19.1
     ports:
       - 80:80
       - 443:443
