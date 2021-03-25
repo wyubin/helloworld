@@ -112,3 +112,60 @@ docker-compose logs drone-server
 # 注意事項
 *  drone 開啟時會存 database.sqlite 在 docker-compose.yml 的資料夾，如果重開一個 drone 會需要清掉這個database，不然會無法連接 github 的 push
 *  如果只有設定 master 就不會啟動其他 branch 的幾個行為：push, 但對 master 的 pull request 會啟動
+
+## add nginx for proxy
+在已經有連接外部的domain name 的狀況下，就不需要 ngrok,可以用 nginx 反向服務讓 host 的 8081 對到外面
+*  在 docker-compose 加上 nginx service
+```yaml
+  nginx:
+    hostname: docker-nginx
+    image: fholzer/nginx-brotli:v1.19.1
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ${DIR_NGINX}/www:/var/www:delegated
+      - ${DIR_NGINX}/log:/var/log/nginx:delegated
+      - ${DIR_NGINX}/sites-enabled/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+    depends_on:
+      - drone-server
+```
+*  .env 加上 DIR_NGINX 設定
+```text
+DIR_NGINX=/home/yubin/mygit/helloworld/drone/nginx
+```
+*  新建 /sites-enabled/nginx.conf
+```conf
+server {
+    listen 80;
+    listen [::]:80;
+ 
+    #listen 443 ssl http2;
+    #listen [::]:443 ssl http2;
+ 
+    server_name white-drone.pklotcorp.com;
+ 
+    access_log /var/log/nginx/drone.workxplay.net.access.log main;
+    error_log /var/log/nginx/drone.workxplay.net.error.log;
+ 
+    #ssl_certificate /etc/nginx/ssl/default.crt;
+    #ssl_certificate_key /etc/nginx/ssl/default.key;
+ 
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://drone-server;
+        proxy_ssl_session_reuse off;
+        proxy_set_header Host $http_host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_redirect off;
+ 
+    }
+}
+```
+*  default conf in /etc/nginx/nginx.conf ... include /etc/nginx/conf.d/
+*  restart nginx service in docker-compsoe
+```shell
+docker-compose -f ~/my-docker-compose.yml restart nginx
+```
