@@ -10,7 +10,7 @@ services:
     volumes:
       - ${DIR_NGINX}/www:/var/www:delegated
       - ${DIR_NGINX}/log:/var/log/nginx:delegated
-      - ${DIR_NGINX}/sites-enabled:/etc/nginx/sites-enabled:ro
+      - ${DIR_NGINX}/sites-enabled/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
     depends_on:
       - drone-server
   
