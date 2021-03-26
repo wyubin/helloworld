@@ -29,13 +29,45 @@ Install binary
 ```bash
 go install
 ```
-# 弄懂 drone
-## 參考資料
-*  ref[Drone CI/CD 配合 Github 使用 Rsync 進行 Deploy](https://cola.workxplay.net/drone-ci-cd-and-github-rsync-deploy/), tutorial[link](https://www.youtube.com/watch?v=-U2EXs0tmN0)
+# drone-nginx-setup
+基於 drone ci 系統，連結 github 並經由 nginx 反向代理到http
 
 ## 系統需求
-*  drone 是基於 docker 跟 docker-compose,先裝 docker 並啟用
+*  drone 是基於 docker 跟 docker-compose,先裝 docker 及 docker-compose 並啟用
 *  也需要 git, 如果 server 沒有對外ip 需要 ngrok 安裝並申請帳號
+
+## 資料內容說明
+*  drone 資料夾內為已經寫好的 docker-compose.yml 及範例 .env
+*  nginx 資料夾則為 nginx service 需要的資料夾結構
+
+# 快速設定及啟用
+當相關環境已安裝完畢，需要設定與 docker-compose.yml 配合的 .env
+*  從 example.env 複製出 .env 並修改DRONE_SERVER_HOST, DRONE_GITHUB_CLIENT_ID,DRONE_GITHUB_CLIENT_SECRET
+```text
+DRONE_SERVER_HOST=<expose uri>
+DRONE_SERVER_PROTO=https
+DRONE_RPC_SECRET=trial2drone
+DRONE_RPC_HOST=drone-server
+DRONE_RPC_PROTO=http
+
+DRONE_GITHUB_CLIENT_ID=<github oauth id>
+DRONE_GITHUB_CLIENT_SECRET=<github oauth id secret>
+
+DIR_NGINX=/home/yubin/mygit/helloworld/drone/nginx
+```
+*  啟動相關服務，並由瀏覽器進入所設定的 DRONE_SERVER_HOST
+```shell
+docker-compose -f drone/docker-compose.yml up -d
+```
+
+*  若要停止服務，也由 docker-compose.yml 停止
+```shell
+docker-compose -f drone/docker-compose.yml down
+```
+
+# 詳細 setup 流程
+## 參考資料
+*  ref[Drone CI/CD 配合 Github 使用 Rsync 進行 Deploy](https://cola.workxplay.net/drone-ci-cd-and-github-rsync-deploy/), tutorial[link](https://www.youtube.com/watch?v=-U2EXs0tmN0)
 
 ## 安裝流程
 *  先下載一個參考用的 docker-compose.yml[link](https://github.com/wyubin/helloworld/blob/master/drone/docker-compose.yml)
