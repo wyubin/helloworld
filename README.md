@@ -117,7 +117,7 @@ DRONE_GITHUB_CLIENT_SECRET=<github client_secret>
 ```shell
 ## start service
 docker-compose -f drone/docker-compose.yml up -d
-## trace 
+## trace
 docker-compose logs drone-server
 ```
 
@@ -171,18 +171,18 @@ DIR_NGINX=/home/yubin/mygit/helloworld/drone/nginx
 server {
     listen 80;
     listen [::]:80;
- 
+
     #listen 443 ssl http2;
     #listen [::]:443 ssl http2;
- 
+
     server_name white-drone.pklotcorp.com;
- 
+
     access_log /var/log/nginx/drone.workxplay.net.access.log main;
     error_log /var/log/nginx/drone.workxplay.net.error.log;
- 
+
     #ssl_certificate /etc/nginx/ssl/default.crt;
     #ssl_certificate_key /etc/nginx/ssl/default.key;
- 
+
     location / {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -192,7 +192,7 @@ server {
         proxy_set_header Host $http_host;
         proxy_cache_bypass $http_upgrade;
         proxy_redirect off;
- 
+
     }
 }
 ```
@@ -201,3 +201,5 @@ server {
 ```shell
 docker-compose -f ~/my-docker-compose.yml restart nginx
 ```
+
+## test drone 20220316
